@@ -8,6 +8,8 @@ import static esa.utilities.ImageUtilities.newSizeImage;
 
 /**
  * Created by SnakE on 14.11.2015.
+ *
+ * version 1.01 :)
  */
 public class ImageBlocks {
     private BufferedImage [][] subs;
@@ -122,17 +124,31 @@ public class ImageBlocks {
 
 
     /**
+     * Type of block marking: fill or no fill
+     */
+    public enum FillType {MARK_FILL, MARK_NOFILL}
+
+
+    /**
      * Marks block (l, r) with red square
      * @param l    line
      * @param r    row
      * @throws NoSuchBlockException
      */
-    public void selectBlock(int l, int r) throws NoSuchBlockException {
+    public void markBlock(int l, int r, FillType type) throws NoSuchBlockException {
         isBlock(l,r);
         Graphics2D g = subs[l][r].createGraphics();
-        g.setColor(Color.RED);
-        g.drawRect(0,0,side-1,side-1);
+        switch (type) {
+            case MARK_FILL:
+                g.setColor(new Color(255, 0,0, 100));
+                g.fillRect(0, 0, side, side);
+                break;
+            case MARK_NOFILL:
+                g.setColor(new Color(255, 0,0));
+                g.drawRect(0, 0, side - 1, side - 1);
+        }
     }
+
 
 
     /**

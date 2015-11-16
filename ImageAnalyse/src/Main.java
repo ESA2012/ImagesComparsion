@@ -2,6 +2,9 @@ import esa.components.*;
 import esa.components.exceptions.NoSuchBlockException;
 import esa.utilities.ImageUtilities;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class Main {
 
     public static void main(String[] args) throws NoSuchBlockException {
@@ -37,13 +40,20 @@ public class Main {
                 ColorMatrix c1 = blocks1.getColorMatrix(i,j);
                 ColorMatrix c2 = blocks2.getColorMatrix(i,j);
                 if (!(c1.equals(c2, OVERALL_ALLOWABLE_ERROR))) {
-                    blocks2.selectBlock(i,j);
+                    blocks1.markBlock(i, j, ImageBlocks.FillType.MARK_FILL);
+                    blocks2.markBlock(i, j, ImageBlocks.FillType.MARK_FILL);
                 }
             }
         }
 
+        // Creates new result image
+        BufferedImage resultImage = new BufferedImage(i1.getWidth()+i2.getWidth(), i1.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D g2 = resultImage.createGraphics();
+        g2.drawImage(blocks1.makeImage(), 0, 0, null);
+        g2.drawImage(blocks2.makeImage(), i2.getWidth(), 0, null);
+
         // Save result image to disk
-        ImageUtilities.savePNGImage(blocks2.makeImage(), "result.png");
+        ImageUtilities.savePNGImage(resultImage, "result.png");
 
 
     }
