@@ -9,9 +9,11 @@ import java.util.List;
  * Created by SnakE on 26.11.2015.
  */
 public class ImagesAnalyser {
+
     private BufferedImage image1;
     private BufferedImage image2;
     private Map<Integer, List<Point>> diffs;
+
 
 
     /**
@@ -24,6 +26,7 @@ public class ImagesAnalyser {
         this.image2 = image2;
         diffs = new HashMap<>();
     }
+
 
 
     /**
@@ -65,6 +68,7 @@ public class ImagesAnalyser {
     }
 
 
+
     /**
      * Returns key of map for given point
      * @param point    point
@@ -86,6 +90,7 @@ public class ImagesAnalyser {
         }
         return block;
     }
+
 
 
     /**
@@ -171,6 +176,7 @@ public class ImagesAnalyser {
     }
 
 
+
     /**
      * Removes rectangles contained by other rectangles from list
      * @param rects     list of rectangles
@@ -200,7 +206,6 @@ public class ImagesAnalyser {
         }
         return compressed;
     }
-
 
 
 
