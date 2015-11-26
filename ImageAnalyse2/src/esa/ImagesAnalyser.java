@@ -48,6 +48,7 @@ public class ImagesAnalyser {
     }
 
 
+
     /**
      * Adds point to map of differences
      * @param point
@@ -98,7 +99,7 @@ public class ImagesAnalyser {
         boolean result = false;
         for (Point point2: list) {
             double dist = point1.distance(point2);
-            if (dist <= 10) {
+            if (dist < 10) {
                 result = true;
                 break;
             } else {
@@ -179,17 +180,27 @@ public class ImagesAnalyser {
         List<Rectangle> compressed = new ArrayList<>();
         for (Rectangle a: rects) {
             boolean contains = false;
+            boolean intersect = false;
+            Rectangle union = null;
             for (Rectangle b: rects) {
                 if (a == b) continue;
                 if (b.contains(a)) {
                     contains = true;
                     break;
                 }
+                if (a.intersects(b)) {
+                    union = a.union(b);
+                    intersect = true;
+                    break;
+                }
             }
-            if (!contains) compressed.add(a);
+            if (!contains & !intersect) compressed.add(a);
+            if (intersect) compressed.add(union);
+
         }
         return compressed;
     }
+
 
 
 
