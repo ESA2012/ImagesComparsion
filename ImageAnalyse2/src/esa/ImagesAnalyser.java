@@ -7,6 +7,8 @@ import java.util.List;
 
 /**
  * Created by SnakE on 26.11.2015.
+ * @author SnakE
+ * @version 1.01
  */
 public class ImagesAnalyser {
 
