@@ -55,6 +55,7 @@ public class ImagesAnalyser {
     /**
      * Adds point to map of differences
      * @param point
+     * @see ImagesAnalyser#compareImages()
      */
     private void addToMap(Point point) {
         Integer block = getBlock(point);
@@ -73,6 +74,7 @@ public class ImagesAnalyser {
      * Returns key of map for given point
      * @param point    point
      * @return         key for map of differences
+     * @see esa.ImagesAnalyser#addToMap(Point)
      */
     private Integer getBlock(Point point) {
         Integer block = 0;
@@ -99,6 +101,7 @@ public class ImagesAnalyser {
      * @param list      collection of points
      * @return          true if collection has nearest point
      *                  false if collection has no nearest point
+     * @see esa.ImagesAnalyser#getBlock(Point)
      */
     private boolean findPoint(Point point1, List<Point> list) {
         boolean result = false;
@@ -118,7 +121,8 @@ public class ImagesAnalyser {
 
     /**
      * Checks two colors for differences.
-     * Maximum allowed difference is 10% for each color channel (R,G,B)
+     * Maximum allowed difference is 10% for each color channel (R,G,B).
+     * This method used by {@link esa.ImagesAnalyser#compareImages()}
      * @param colorA    first color
      * @param colorB    second color
      * @return          true - if colors are different
@@ -133,7 +137,8 @@ public class ImagesAnalyser {
 
 
     /**
-     * Builds a rectangle around points in collection
+     * Builds a rectangle around points in collection.
+     * This method using by {@link ImagesAnalyser#getRectangles()}
      * @param pointList    collection of points
      * @return             rectangle
      */
@@ -172,18 +177,19 @@ public class ImagesAnalyser {
         for (Integer i : diffs.keySet()) {
             rectangles.add(rectangleBlocks(diffs.get(i)));
         }
-        return compressRectangles(rectangles);
+        return optimizeRectangles(rectangles);
     }
 
 
 
     /**
-     * Removes rectangles contained by other rectangles from list
+     * Removes from list rectangles contained by other rectangles,
+     * and unite intersected rectangles. This method using by {@link ImagesAnalyser#getRectangles()}
      * @param rects     list of rectangles
      * @return          "compressed" list of rectangles
      */
-    private List<Rectangle> compressRectangles(List<Rectangle> rects) {
-        List<Rectangle> compressed = new ArrayList<>();
+    private List<Rectangle> optimizeRectangles(List<Rectangle> rects) {
+        List<Rectangle> optimized = new ArrayList<>();
         for (Rectangle a: rects) {
             boolean contains = false;
             boolean intersect = false;
@@ -200,11 +206,11 @@ public class ImagesAnalyser {
                     break;
                 }
             }
-            if (!contains & !intersect) compressed.add(a);
-            if (intersect) compressed.add(union);
+            if (!contains & !intersect) optimized.add(a);
+            if (intersect) optimized.add(union);
 
         }
-        return compressed;
+        return optimized;
     }
 
 
